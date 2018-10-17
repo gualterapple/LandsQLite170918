@@ -35,7 +35,9 @@
 
 		private void Navigate()
 		{
-			if(this.PageName == "LoginPage")
+            App.Master.IsPresented = false;
+
+            if (this.PageName == "LoginPage")
             {
                 Settings.Token = string.Empty;
                 Settings.TokenType = string.Empty;
@@ -43,6 +45,11 @@
                 mainViewModel.Token = string.Empty;
                 mainViewModel.TokenType = string.Empty;
                 Application.Current.MainPage = new NavigationPage(new LoginPage());
+            }
+            else if(this.PageName == "MyProfilePage")
+            {
+                MainViewModel.GetInstance().MyProfile = new MyProfileViewModel();
+                App.Navigator.PushAsync(new MyProfilePage());
             }
 		}
 		#endregion
