@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Application xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:infra="clr-namespace:Lands.Infrastructure"
+             x:Class="Lands.App">
+    
+
+    <Application.Resources>
+        
+        <!-- DICIONÁRIO DE RECURSOS-->
+        <ResourceDictionary>
+                        <!-- Parameters -->
+            <infra:InstanceLocator x:Key="Locator"/>
+
+            <!-- Parameters -->
+            <x:String x:Key="APILands">http://restcountries.eu</x:String>
+            <x:String x:Key="APISecurity">http://landsapi0-001-site1.htempurl.com</x:String>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
