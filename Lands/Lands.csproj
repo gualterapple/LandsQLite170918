@@ -29,9 +29,6 @@
     <Compile Remove="Views\LandTabbedPage.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Lands.Domain\Lands.Domain.csproj" />
-  </ItemGroup>
-  <ItemGroup>
     <Reference Include="System.Configuration">
       <HintPath>..\..\..\..\..\..\Windows\Microsoft.NET\Framework\v4.0.30319\System.Configuration.dll</HintPath>
     </Reference>
