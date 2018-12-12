@@ -12,12 +12,12 @@ namespace Lands.API
     {
         public static void Register(HttpConfiguration config)
         {
-            // Configuração e serviços de API Web
-            // Configure a API Web para usar somente a autenticação de token de portador.
+            // Web API configuration and services
+            // Configure Web API to use only bearer token authentication.
             config.SuppressDefaultHostAuthentication();
             config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));
 
-            // Rotas de API Web
+            // Web API routes
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(

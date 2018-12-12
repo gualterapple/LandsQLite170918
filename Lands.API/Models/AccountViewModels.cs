@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Lands.API.Models
 {
-    // Modelos retornados por ações AccountController.
+    // Models returned by AccountController actions.
 
     public class ExternalLoginViewModel
     {

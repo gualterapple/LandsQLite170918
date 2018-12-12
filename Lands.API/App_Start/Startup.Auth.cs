@@ -19,19 +19,19 @@ namespace Lands.API
 
         public static string PublicClientId { get; private set; }
 
-        // Para obter mais informações sobre a autenticação de configuração, visite https://go.microsoft.com/fwlink/?LinkId=301864
+        // For more information on configuring authentication, please visit https://go.microsoft.com/fwlink/?LinkId=301864
         public void ConfigureAuth(IAppBuilder app)
         {
-            // Configure o contexto do banco de dados e o gerenciador de usuários para usar uma instância por solicitação
+            // Configure the db context and user manager to use a single instance per request
             app.CreatePerOwinContext(ApplicationDbContext.Create);
             app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
 
-            // Habilite o aplicativo para usar um cookie que armazena informações do usuário conectado
-            // e um cookie que armazena informações temporárias sobre um usuário que faz login em um provedor de login de terceiros
+            // Enable the application to use a cookie to store information for the signed in user
+            // and to use a cookie to temporarily store information about a user logging in with a third party login provider
             app.UseCookieAuthentication(new CookieAuthenticationOptions());
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
 
-            // Configure o aplicativo para fluxo com base em OAuth
+            // Configure the application for OAuth based flow
             PublicClientId = "self";
             OAuthOptions = new OAuthAuthorizationServerOptions
             {
@@ -39,14 +39,14 @@ namespace Lands.API
                 Provider = new ApplicationOAuthProvider(PublicClientId),
                 AuthorizeEndpointPath = new PathString("/api/Account/ExternalLogin"),
                 AccessTokenExpireTimeSpan = TimeSpan.FromDays(14),
-                // Em modo de produção, defina AllowInsecureHttp = false
+                // In production mode set AllowInsecureHttp = false
                 AllowInsecureHttp = true
             };
 
-            // Habilite o aplicativo para usar tokens portadores na autenticação de usuários
+            // Enable the application to use bearer tokens to authenticate users
             app.UseOAuthBearerTokens(OAuthOptions);
 
-            // Remova comentários das linhas a seguir para habilitar o login com provedores de login de terceiros
+            // Uncomment the following lines to enable logging in with third party login providers
             //app.UseMicrosoftAccountAuthentication(
             //    clientId: "",
             //    clientSecret: "");

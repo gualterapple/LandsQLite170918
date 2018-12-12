@@ -35,7 +35,7 @@ namespace Lands.API.Providers
 
             if (user == null)
             {
-                context.SetError("invalid_grant", "Nome de usuário ou senha incorreto.");
+                context.SetError("invalid_grant", "The user name or password is incorrect.");
                 return;
             }
 
@@ -62,7 +62,7 @@ namespace Lands.API.Providers
 
         public override Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
         {
-            // As credenciais de senha do proprietário do recurso não fornecem um ID de cliente.
+            // Resource owner password credentials does not provide a client ID.
             if (context.ClientId == null)
             {
                 context.Validated();
