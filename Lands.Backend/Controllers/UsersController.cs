@@ -13,7 +13,7 @@ using Lands.Backend.Helpers;
 
 namespace Lands.Backend.Controllers
 {
-    [Authorize(Roles = "Admin")] 
+    [Authorize(Roles = "Admin")]
     public class UsersController : Controller
     {
         private LocalDataContext db = new LocalDataContext();
@@ -46,8 +46,6 @@ namespace Lands.Backend.Controllers
         }
 
         // POST: Users/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(UserView view)
@@ -64,19 +62,18 @@ namespace Lands.Backend.Controllers
             return View(view);
         }
 
-        private User ToUser(UserView view)
+        private User ToUser(Models.UserView view)
         {
             return new User
             {
                 Email = view.Email,
                 FirstName = view.FirstName,
+                ImagePath = view.ImagePath,
                 LastName = view.LastName,
                 Telephone = view.Telephone,
-                ImagePath = view.ImagePath,
                 UserId = view.UserId,
-
-            }; 
-    }
+            };
+        }
 
         // GET: Users/Edit/5
         public async Task<ActionResult> Edit(int? id)
