@@ -3,7 +3,8 @@
     using System;
     using System.Threading.Tasks;
     using Domain;
-
+    using Lands.Backend.Models;
+    using Lands.Models;
 
     public class DBHelper
     {
