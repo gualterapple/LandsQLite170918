@@ -52,6 +52,17 @@
             }
         }
 
+        public void UpdateUser(UserLocal newUser)
+        {
+            db.Execute("Update [Lands] set [FirstName] = '" + newUser.FirstName + "', [LastName] = '" + 
+                       newUser.LastName + "'," + " [Email] = '" + newUser.Email + "', [Telephone] = '" +
+                       newUser.Telephone + "', [ImagePath] = '"+ 
+                       newUser.ImagePath + "', [UserTypeId] = '" +
+                       newUser.UserTypeId + "' where [UserId]= '" + newUser.UserId + "'");
+
+
+        }
+
         public UserLocal GetUser()
         {
             var table = db.Table<UserLocal>();

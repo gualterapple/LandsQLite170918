@@ -8,8 +8,12 @@ namespace Lands.ViewModels
     using Helpers;
     using Lands.Domain;
 
-    public class MainViewModel
+    public class MainViewModel: BaseViewModel
     {
+        #region Attributes
+        private UserLocal user;
+        #endregion
+
         #region Properties
         public List<Land> LandsList
         {
@@ -23,8 +27,8 @@ namespace Lands.ViewModels
         }
         public UserLocal User
         {
-            get;
-            set;
+            get { return this.user; }
+            set { SetValue(ref this.user, value); }
         }
         #endregion
 

@@ -146,7 +146,9 @@
                 apiSecurity,
                 "/api",
                 "/Users/GetUserByEmail",
-                this.Email);
+                this.Email,
+                token.TokenType,
+                token.AccessToken);
 
             var userLocal = Converter.ToUserLocal(user);
 

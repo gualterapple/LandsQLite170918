@@ -5,7 +5,7 @@
 
     public class UserLocal
     {
-        [PrimaryKey]
+        [PrimaryKey, AutoIncrement, Column("UserId")]
         public int UserId { get; set; }
 
         public string FirstName { get; set; }
@@ -34,7 +34,7 @@
                 if (this.UserTypeId == 1)
                 {
                     return string.Format(
-                        "http://landsapi0-001-site1.htempurl.com/{0}",
+                        "http://landsapi02-001-site1.ctempurl.com/{0}",
                         ImagePath.Substring(1));
                 }
 
