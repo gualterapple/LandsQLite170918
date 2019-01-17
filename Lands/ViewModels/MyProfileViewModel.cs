@@ -230,9 +230,10 @@
                 apiSecurity,
                 "/api",
                 "/Users/GetUserByEmail",
+                this.User.Email,
                 MainViewModel.GetInstance().TokenType,
-                MainViewModel.GetInstance().Token,
-                this.User.Email);
+                MainViewModel.GetInstance().Token
+                );
 
             var userLocal = Converter.ToUserLocal(userApi);
 

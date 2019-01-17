@@ -106,7 +106,7 @@ namespace Lands.API.Controllers
                 }
             }
 
-            return Ok(User);
+            return Ok(user);
         }
 
         // POST: api/Users
