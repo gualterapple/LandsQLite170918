@@ -402,7 +402,8 @@
                 var request = JsonConvert.SerializeObject(model);
                 var content = new StringContent(
                     request,
-                    Encoding.UTF8, "application/json");
+                    Encoding.UTF8,
+                    "application/json");
                 var client = new HttpClient();
                 client.DefaultRequestHeaders.Authorization =
                     new AuthenticationHeaderValue(tokenType, accessToken);

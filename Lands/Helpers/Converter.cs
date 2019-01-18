@@ -24,7 +24,7 @@ namespace Lands.Helpers
             };
     }
 
-        internal static User ToUserDomain(UserLocal user, byte[] imageArray)
+        public static User ToUserDomain(UserLocal user, byte[] imageArray)
         {
             return new User
             {
