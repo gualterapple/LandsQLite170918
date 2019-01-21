@@ -156,6 +156,7 @@
             mainViewModel.Token = token.AccessToken;
             mainViewModel.TokenType = token.TokenType;
             mainViewModel.User = userLocal;
+            var id = userLocal.UserId;
 
             if (this.IsRemembered)
             {
@@ -165,6 +166,8 @@
                 dataAccess = new DataAccess();
                 dataAccess.InsertUser(userLocal);
             }
+
+            userLocal.UserId = id;
 
             mainViewModel.Lands = new LandsViewModel();
 

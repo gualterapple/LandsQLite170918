@@ -37,6 +37,7 @@
 
         public void InsertUser(UserLocal newUser)
         {
+            var id_atual = newUser.UserId;
             if (db.Table<UserLocal>().Count() == 0)
             {
                 db.Insert(newUser);
@@ -49,12 +50,13 @@
                     db.DeleteAll<UserLocal>();
                 }
                 db.Insert(newUser);
+                db.Execute("Update [UserLocal] set [UserId] = '" + id_atual + "' where [UserId]= '" + newUser.UserId + "'");
             }
         }
 
         public void UpdateUser(UserLocal newUser)
         {
-            db.Execute("Update [Lands] set [FirstName] = '" + newUser.FirstName + "', [LastName] = '" + 
+            db.Execute("Update [UserLocal] set [FirstName] = '" + newUser.FirstName + "', [LastName] = '" + 
                        newUser.LastName + "'," + " [Email] = '" + newUser.Email + "', [Telephone] = '" +
                        newUser.Telephone + "', [ImagePath] = '"+ 
                        newUser.ImagePath + "', [UserTypeId] = '" +
