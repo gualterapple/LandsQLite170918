@@ -28,7 +28,7 @@ namespace Lands.API.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        
         [Route("GetUserByEmail")]
         public async Task<IHttpActionResult> GetUserByEmail(JObject form)
         {
@@ -69,7 +69,7 @@ namespace Lands.API.Controllers
         }
 
         // PUT: api/Users/5
-        [Authorize]
+        
         [ResponseType(typeof(void))]
         public async Task<IHttpActionResult> PutUser(int id, User user)
         {
