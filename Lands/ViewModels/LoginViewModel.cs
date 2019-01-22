@@ -159,7 +159,7 @@
 
             if (this.IsRemembered)
             {
-                Settings.IsRemembered = "true";
+                 Settings.IsRemembered = "true";
             }
             else
             {
