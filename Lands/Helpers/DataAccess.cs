@@ -26,6 +26,7 @@
             db = new SQLiteConnection(dbPath);
 
             db.CreateTable<UserLocal>();
+            db.CreateTable<TokenResponse>();
 
             /*var config = DependencyService.Get<IConfig>();
             this.connection = new SQLiteConnection(
@@ -33,6 +34,29 @@
                 Path.Combine(config.DirectoryDB, "Lands.db3"));
             connection.CreateTable<UserLocal>();
             connection.CreateTable<TokenResponse>();*/
+        }
+
+        internal TokenResponse GetToken()
+        {
+            var table = db.Table<TokenResponse>();
+            TokenResponse token = new TokenResponse();
+            foreach (var s in table)
+            {
+                token.AccessToken = s.AccessToken;
+                token.TokenType = s.TokenType;
+                token.TokenResponseId = s.TokenResponseId;
+                token.Expires = s.Expires;
+                token.ExpiresIn = s.ExpiresIn;
+                token.UserName = s.UserName;
+                token.Issued = s.Issued;
+                token.ErrorDescription = s.ErrorDescription;
+
+
+
+                //Console.WriteLine(s.Id + " " + s.Symbol);
+            }
+
+            return token;
         }
 
         public void InsertUser(UserLocal newUser)
@@ -84,6 +108,23 @@
             }
 
             return user;
+        }
+
+        internal void InsertToken(TokenResponse newToken)
+        {
+            if (db.Table<TokenResponse>().Count() == 0)
+            {
+                db.Insert(newToken);
+            }
+            else
+            {
+                var table = db.Table<TokenResponse>();
+                foreach (var s in table)
+                {
+                    db.DeleteAll<TokenResponse>();
+                }
+                db.Insert(newToken);
+            }
         }
 
         /*public Task<List<UserLocal>> GetItemsAsync()

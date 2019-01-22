@@ -136,6 +136,20 @@
             }
         }
 
+        public ICommand ChangePasswordCommand
+        {
+            get
+            {
+                return new RelayCommand(ChangePassword);
+            }
+        }
+
+        private async void ChangePassword()
+        {
+            MainViewModel.GetInstance().ChangePassword = new ChangePasswordViewModel();
+            await App.Navigator.PushAsync(new ChangePasswordPage());
+        }
+
         private async void Save()
         {
             if (string.IsNullOrEmpty(this.User.FirstName))
@@ -211,8 +225,8 @@
                 apiSecurity,
                 "/api",
                 "/Users",
-                MainViewModel.GetInstance().TokenType,
-                MainViewModel.GetInstance().Token,
+                MainViewModel.GetInstance().Token.TokenType,
+                MainViewModel.GetInstance().Token.AccessToken,
                 userDomain);
 
             if (!response.IsSuccess)
@@ -231,8 +245,8 @@
                 "/api",
                 "/Users/GetUserByEmail",
                 this.User.Email,
-                MainViewModel.GetInstance().TokenType,
-                MainViewModel.GetInstance().Token
+                MainViewModel.GetInstance().Token.TokenType,
+                MainViewModel.GetInstance().Token.AccessToken
                 );
 
             var userLocal = Converter.ToUserLocal(userApi);

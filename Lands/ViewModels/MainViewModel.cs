@@ -32,18 +32,18 @@ namespace Lands.ViewModels
         }
         #endregion
 
-        public string Token
-        {
-            get;
-            set;
-        }
-        public string TokenType
+        public TokenResponse Token
         {
             get;
             set;
         }
 
         #region ViewModels
+        public ChangePasswordViewModel ChangePassword
+        {
+            get;
+            set;
+        }
         public LoginViewModel Login
         {
             get;

@@ -7,6 +7,7 @@
     using System.Text;
     using System.Threading.Tasks;
     using Lands.Domain;
+    using Lands.Helpers;
     using Models;
     using Newtonsoft.Json;
     using Plugin.Connectivity;
@@ -21,7 +22,7 @@
                 return new Response
                 {
                     IsSuccess = false,
-                    Message = "Please connect to internet.",
+                    Message = Languages.ConnectionError1,
                 };
             }
 
@@ -32,7 +33,7 @@
                 return new Response
                 {
                     IsSuccess = false,
-                    Message = "Verifique sua conexão com a internet.",
+                    Message = Languages.ConnectionError2,
                 };
             }
 

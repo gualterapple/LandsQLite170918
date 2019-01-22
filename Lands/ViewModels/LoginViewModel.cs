@@ -136,7 +136,7 @@
 
                 await Application.Current.MainPage.DisplayAlert(
 					Languages.Error,
-                    token.ErrorDescription,
+                    Languages.LoginError,
 					Languages.Accept);
                 this.Password = string.Empty;
                 return;
@@ -153,20 +153,22 @@
             var userLocal = Converter.ToUserLocal(user);
 
             var mainViewModel = MainViewModel.GetInstance();
-            mainViewModel.Token = token.AccessToken;
-            mainViewModel.TokenType = token.TokenType;
+            mainViewModel.Token = token;
             mainViewModel.User = userLocal;
             var id = userLocal.UserId;
 
             if (this.IsRemembered)
             {
-                Settings.Token = token.AccessToken;
-                Settings.TokenType = token.TokenType;
-                //this.dataService.DeleteAllAndInsert(userLocal);
-                dataAccess = new DataAccess();
-                dataAccess.InsertUser(userLocal);
+                Settings.IsRemembered = "true";
+            }
+            else
+            {
+                Settings.IsRemembered = "false";
             }
 
+            dataAccess = new DataAccess();
+            dataAccess.InsertUser(userLocal);
+            dataAccess.InsertToken(token);
             userLocal.UserId = id;
 
             mainViewModel.Lands = new LandsViewModel();
