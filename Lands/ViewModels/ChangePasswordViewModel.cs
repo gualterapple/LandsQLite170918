@@ -97,6 +97,15 @@ namespace Lands.ViewModels
                 return;
             }
 
+            if (this.CurrentPassword != MainViewModel.GetInstance().User.Password)
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    Languages.PasswordError,
+                    Languages.Accept);
+                return;
+            }
+
             if (string.IsNullOrEmpty(this.NewPassword))
             {
                 await Application.Current.MainPage.DisplayAlert(
@@ -133,7 +142,7 @@ namespace Lands.ViewModels
                 return;
             }
 
-            /*this.IsRunning = true;
+            this.IsRunning = true;
             this.IsEnabled = false;
 
             var connection = await this.apiService.CheckConnection();
@@ -186,7 +195,7 @@ namespace Lands.ViewModels
                 Languages.ConfirmLabel,
                 Languages.ChagePasswordConfirm,
                 Languages.Accept);
-            await App.Navigator.PopAsync();*/
+            await App.Navigator.PopAsync();
         }
         #endregion
     }
