@@ -1,7 +1,7 @@
 ﻿using GalaSoft.MvvmLight.Command;
 using Lands.Helpers;
+using Lands.Models;
 using Lands.Services;
-//using Models;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -11,6 +11,8 @@ namespace Lands.ViewModels
     {
         #region Services
         private ApiService apiService;
+        private DataService dataService;
+        private DataAccess dataAccess;
         #endregion
 
         #region Attributes
@@ -54,7 +56,8 @@ namespace Lands.ViewModels
         public ChangePasswordViewModel()
         {
             this.apiService = new ApiService();
-
+            this.dataService = new DataService();
+            this.dataAccess = new DataAccess();
             this.IsEnabled = true;
         }
         #endregion
@@ -186,7 +189,8 @@ namespace Lands.ViewModels
             }
 
             MainViewModel.GetInstance().User.Password = this.NewPassword;
-            this.dataService.Update(MainViewModel.GetInstance().User);
+            this.dataAccess.UpdateUser(MainViewModel.GetInstance().User);
+            //this.dataService.Update(MainViewModel.GetInstance().User);
 
             this.IsRunning = false;
             this.IsEnabled = true;
