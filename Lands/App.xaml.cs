@@ -10,6 +10,8 @@ namespace Lands
     using ViewModels;
     using Services;
     using Models;
+    using System.Threading.Tasks;
+
     public partial class App : Application
     {
         #region Properties
@@ -28,6 +30,7 @@ namespace Lands
         public App()
 		{
 			InitializeComponent();
+
 
             if (Settings.IsRemembered == "true")
             {
@@ -55,10 +58,74 @@ namespace Lands
             }
 			
 		}
-		#endregion
+        #endregion
 
-		#region Methods
-		protected override void OnStart()
+        #region Methods
+        public static Action HideLoginView
+        {
+            get
+            {
+                return new Action(() => Application.Current.MainPage =
+                                  new NavigationPage(new LoginPage()));
+            }
+        }
+
+        public static async Task NavigateToProfile(FacebookResponse profile)
+        {
+            if (profile == null)
+            {
+                Application.Current.MainPage = new NavigationPage(new LoginPage());
+                return;
+            }
+
+            var apiService = new ApiService();
+            var dataService = new DataService();
+            var dataAccess = new DataAccess();
+
+            var apiSecurity = Application.Current.Resources["APISecurity"].ToString();
+            var token = await apiService.LoginFacebook(
+                apiSecurity,
+                "/api",
+                "/Users/LoginFacebook",
+                profile);
+
+            if (token == null)
+            {
+                Application.Current.MainPage = new NavigationPage(new LoginPage());
+                return;
+            }
+
+            var user = await apiService.GetUserByEmail(
+                apiSecurity,
+                "/api",
+                "/Users/GetUserByEmail",
+                token.UserName,
+                token.TokenType,
+                token.AccessToken
+                );
+
+            UserLocal userLocal = null;
+            if (user != null)
+            {
+                userLocal = Converter.ToUserLocal(user);
+                dataAccess.InsertUser(userLocal);
+                dataAccess.InsertToken(token);
+                //dataService.DeleteAllAndInsert(userLocal);
+                //dataService.DeleteAllAndInsert(token);
+            }
+
+            var mainViewModel = MainViewModel.GetInstance();
+            mainViewModel.Token = token;
+            mainViewModel.User = userLocal;
+            mainViewModel.Lands = new LandsViewModel();
+            Application.Current.MainPage = new MasterPage();
+            Settings.IsRemembered = "true";
+
+            mainViewModel.Lands = new LandsViewModel();
+            Application.Current.MainPage = new MasterPage();
+        }
+
+        protected override void OnStart()
 		{
 
 			// Handle when your app starts
