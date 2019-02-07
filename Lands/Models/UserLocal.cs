@@ -34,7 +34,7 @@
                 if (this.UserTypeId == 1)
                 {
                     return string.Format(
-                        "http://landsapi1.azurewebsites.net/{0}",
+                        "http://landsapi02-001-site1.ctempurl.com/{0}",
                         ImagePath.Substring(1));
                 }
 
