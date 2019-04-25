@@ -2,15 +2,21 @@
 {
     using System;
     using System.Collections.Generic;
+
     using System.Net.Http;
-    using System.Net.Http.Headers;
     using System.Text;
     using System.Threading.Tasks;
-    using Lands.Domain;
-    using Models;
+    using Lands.Models;
     using Newtonsoft.Json;
+
+
+    using System.Net.Http.Headers;
+
+    using Lands.Domain;
+    using Lands.Helpers;
+
     using Plugin.Connectivity;
-    //using Domain;
+
 
     public class ApiService
     {
@@ -21,7 +27,7 @@
                 return new Response
                 {
                     IsSuccess = false,
-                    Message = "Please connect to internet.",
+                    Message = Languages.ConnectionError1,
                 };
             }
 
@@ -32,7 +38,7 @@
                 return new Response
                 {
                     IsSuccess = false,
-                    Message = "Verifique sua conexão com a internet.",
+                    Message = Languages.ConnectionError2,
                 };
             }
 
@@ -41,6 +47,60 @@
                 IsSuccess = true,
                 Message = "Ok",
             };
+        }
+
+        public async Task<Models.FacebookResponse> GetFacebook(string accessToken)
+        {
+            var requestUrl = "https://graph.facebook.com/v2.8/me/?fields=name," +
+                "picture.width(999),cover,age_range,devices,email,gender," +
+                "is_verified,birthday,languages,work,website,religion," +
+                "location,locale,link,first_name,last_name," +
+                "hometown&access_token=" + accessToken;
+            var httpClient = new HttpClient();
+            var userJson = await httpClient.GetStringAsync(requestUrl);
+            var facebookResponse =
+                JsonConvert.DeserializeObject<Models.FacebookResponse>(userJson);
+            return facebookResponse;
+        }
+
+        public async Task<Response> ChangePassword(
+            string urlBase,
+            string servicePrefix,
+            string controller,
+            string tokenType,
+            string accessToken, ChangePasswordRequest changePasswordRequest)
+        {
+            try
+            {
+                var request = JsonConvert.SerializeObject(changePasswordRequest);
+                var content = new StringContent(request, Encoding.UTF8, "application/json");
+                var client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(tokenType, accessToken);
+                client.BaseAddress = new Uri(urlBase);
+                var url = string.Format("{0}{1}", servicePrefix, controller);
+                var response = await client.PostAsync(url, content);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new Response
+                    {
+                        IsSuccess = false,
+                    };
+                }
+
+                return new Response
+                {
+                    IsSuccess = true,
+                };
+            }
+            catch (Exception ex)
+            {
+                return new Response
+                {
+                    IsSuccess = false,
+                    Message = ex.Message,
+                };
+            }
         }
 
         public async Task<TokenResponse> GetToken(
@@ -61,6 +121,41 @@
                 var result = JsonConvert.DeserializeObject<TokenResponse>(
                     resultJSON);
                 return result;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public async Task<TokenResponse> LoginFacebook(
+            string urlBase,
+            string servicePrefix,
+            string controller,
+            Models.FacebookResponse profile)
+        {
+            try
+            {
+                var request = JsonConvert.SerializeObject(profile);
+                var content = new StringContent(
+                    request,
+                    Encoding.UTF8,
+                    "application/json");
+                var client = new HttpClient();
+                client.BaseAddress = new Uri(urlBase);
+                var url = string.Format("{0}{1}", servicePrefix, controller);
+                var response = await client.PostAsync(url, content);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return null;
+                }
+
+                var tokenResponse = await GetToken(
+                    urlBase,
+                    profile.Id,
+                    profile.Id);
+                return tokenResponse;
             }
             catch
             {
@@ -349,7 +444,9 @@
             string urlBase,
             string servicePrefix,
             string controller,
-            string email)
+            string email,
+            string tokenType,
+            string accessToken)
         {
             try
             {
@@ -364,6 +461,8 @@
                     Encoding.UTF8,
                     "application/json");
                 var client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue(tokenType, accessToken);
                 client.BaseAddress = new Uri(urlBase);
                 var url = string.Format("{0}{1}", servicePrefix, controller);
                 var response = await client.PostAsync(url, content);
@@ -392,14 +491,17 @@
             T model)
         {
             try
+           
             {
+
                 var request = JsonConvert.SerializeObject(model);
                 var content = new StringContent(
                     request,
-                    Encoding.UTF8, "application/json");
+                    Encoding.UTF8,
+                    "application/json");
                 var client = new HttpClient();
-                client.DefaultRequestHeaders.Authorization =
-                    new AuthenticationHeaderValue(tokenType, accessToken);
+                //client.DefaultRequestHeaders.Authorization =
+                    //new AuthenticationHeaderValue(tokenType, accessToken);
                 client.BaseAddress = new Uri(urlBase);
                 var url = string.Format(
                     "{0}{1}/{2}",

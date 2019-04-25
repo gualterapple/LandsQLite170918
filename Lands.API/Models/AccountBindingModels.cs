@@ -4,12 +4,12 @@ using Newtonsoft.Json;
 
 namespace Lands.API.Models
 {
-    // Modelos usados como parâmetros para as ações AccountController.
+    // Models used as parameters to AccountController actions.
 
     public class AddExternalLoginBindingModel
     {
         [Required]
-        [Display(Name = "Token de acesso externo")]
+        [Display(Name = "External access token")]
         public string ExternalAccessToken { get; set; }
     }
 
@@ -17,18 +17,18 @@ namespace Lands.API.Models
     {
         [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "Senha atual")]
+        [Display(Name = "Current password")]
         public string OldPassword { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "O {0} deve ter pelo menos {2} caracteres.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Nova senha")]
+        [Display(Name = "New password")]
         public string NewPassword { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirmar nova senha")]
-        [Compare("NewPassword", ErrorMessage = "A nova senha e a senha de confirmação não coincidem.")]
+        [Display(Name = "Confirm new password")]
+        [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
     }
 
@@ -39,14 +39,14 @@ namespace Lands.API.Models
         public string Email { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "O {0} deve ter pelo menos {2} caracteres.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Senha")]
+        [Display(Name = "Password")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirmar senha")]
-        [Compare("Password", ErrorMessage = "A senha e a senha de confirmação não coincidem.")]
+        [Display(Name = "Confirm password")]
+        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
     }
 
@@ -60,25 +60,25 @@ namespace Lands.API.Models
     public class RemoveLoginBindingModel
     {
         [Required]
-        [Display(Name = "Provedor de logon")]
+        [Display(Name = "Login provider")]
         public string LoginProvider { get; set; }
 
         [Required]
-        [Display(Name = "Chave do Provedor")]
+        [Display(Name = "Provider key")]
         public string ProviderKey { get; set; }
     }
 
     public class SetPasswordBindingModel
     {
         [Required]
-        [StringLength(100, ErrorMessage = "O {0} deve ter pelo menos {2} caracteres.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Nova senha")]
+        [Display(Name = "New password")]
         public string NewPassword { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirmar nova senha")]
-        [Compare("NewPassword", ErrorMessage = "A nova senha e a senha de confirmação não coincidem.")]
+        [Display(Name = "Confirm new password")]
+        [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
     }
 }

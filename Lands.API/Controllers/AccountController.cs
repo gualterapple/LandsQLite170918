@@ -170,14 +170,14 @@ namespace Lands.API.Controllers
                 && ticket.Properties.ExpiresUtc.HasValue
                 && ticket.Properties.ExpiresUtc.Value < DateTimeOffset.UtcNow))
             {
-                return BadRequest("Falha no login externo.");
+                return BadRequest("External login failure.");
             }
 
             ExternalLoginData externalData = ExternalLoginData.FromIdentity(ticket.Identity);
 
             if (externalData == null)
             {
-                return BadRequest("O login externo já está associado a uma conta.");
+                return BadRequest("The external login is already associated with an account.");
             }
 
             IdentityResult result = await UserManager.AddLoginAsync(User.Identity.GetUserId(),
@@ -384,7 +384,7 @@ namespace Lands.API.Controllers
             base.Dispose(disposing);
         }
 
-        #region Auxiliares
+        #region Helpers
 
         private IAuthenticationManager Authentication
         {
@@ -410,7 +410,7 @@ namespace Lands.API.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    // Nenhum erro ModelState disponível para envio; retorne um BadRequest vazio.
+                    // No ModelState errors are available to send, so just return an empty BadRequest.
                     return BadRequest();
                 }
 
@@ -478,7 +478,7 @@ namespace Lands.API.Controllers
 
                 if (strengthInBits % bitsPerByte != 0)
                 {
-                    throw new ArgumentException("strengthInBits deve ser divisível por 8.", "strengthInBits");
+                    throw new ArgumentException("strengthInBits must be evenly divisible by 8.", "strengthInBits");
                 }
 
                 int strengthInBytes = strengthInBits / bitsPerByte;

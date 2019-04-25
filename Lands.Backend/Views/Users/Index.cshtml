@@ -23,9 +23,12 @@
         <th>
             @Html.DisplayNameFor(model => model.ImagePath)
         </th>
-        <td>
-            User Type
-        </td>
+        <th>
+            @Html.DisplayNameFor(model => model.ImageArray)
+        </th>
+        <th>
+            User Type 
+        </th>
         <th></th>
     </tr>
 
@@ -48,6 +51,9 @@
             {
                 <img src="@Url.Content(item.ImageFullPath)" alt="Image" style="width:150px;height:150px;max-width: 100%; height: auto;" />
             }
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ImageArray)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.UserType.Name)

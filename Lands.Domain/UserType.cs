@@ -16,10 +16,10 @@ namespace Lands.Domain
 
         [Required(ErrorMessage = "The field {0} is requiered.")]
         [MaxLength(50, ErrorMessage = "The field {0} only can contains a maximum of {1} characters lenght.")]
-        [Index("User_Email_Index", IsUnique = true)]
+        [Index("UserType_Email_Index", IsUnique = true)]
         public string Name { get; set; }
 
         [JsonIgnore]
-        public virtual ICollection<User> Users { get; set; }
+        public virtual ICollection<User> Users { get; set; } 
     }
 }

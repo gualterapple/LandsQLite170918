@@ -37,12 +37,6 @@
         [JsonIgnore]
         public virtual UserType UserType { get; set; }
 
-        [NotMapped]
-        public byte[] ImageArray { get; set; }
-
-        [NotMapped]
-        public string Password { get; set; }
-
         [Display(Name = "Image")]
         public string ImageFullPath
         {
@@ -54,7 +48,7 @@
                 }
 
                 return string.Format(
-                    "http://landsapi0-001-site1.htempurl.com/{0}",
+                    "http://landsapi02-001-site1.ctempurl.com/{0}",
                     ImagePath.Substring(1));
             }
         }
@@ -67,5 +61,9 @@
                 return string.Format("{0} {1}", this.FirstName, this.LastName);
             }
         }
+        [NotMapped]
+        public byte[] ImageArray { get; set; }
+        [NotMapped]
+        public string Password { get; set; }
     }
 }

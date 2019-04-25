@@ -26,6 +26,7 @@
             db = new SQLiteConnection(dbPath);
 
             db.CreateTable<UserLocal>();
+            db.CreateTable<TokenResponse>();
 
             /*var config = DependencyService.Get<IConfig>();
             this.connection = new SQLiteConnection(
@@ -35,8 +36,32 @@
             connection.CreateTable<TokenResponse>();*/
         }
 
+        internal TokenResponse GetToken()
+        {
+            var table = db.Table<TokenResponse>();
+            TokenResponse token = new TokenResponse();
+            foreach (var s in table)
+            {
+                token.AccessToken = s.AccessToken;
+                token.TokenType = s.TokenType;
+                token.TokenResponseId = s.TokenResponseId;
+                token.Expires = s.Expires;
+                token.ExpiresIn = s.ExpiresIn;
+                token.UserName = s.UserName;
+                token.Issued = s.Issued;
+                token.ErrorDescription = s.ErrorDescription;
+
+
+
+                //Console.WriteLine(s.Id + " " + s.Symbol);
+            }
+
+            return token;
+        }
+
         public void InsertUser(UserLocal newUser)
         {
+            var id_atual = newUser.UserId;
             if (db.Table<UserLocal>().Count() == 0)
             {
                 db.Insert(newUser);
@@ -49,7 +74,19 @@
                     db.DeleteAll<UserLocal>();
                 }
                 db.Insert(newUser);
+                db.Execute("Update [UserLocal] set [UserId] = '" + id_atual + "' where [UserId]= '" + newUser.UserId + "'");
             }
+        }
+
+        public void UpdateUser(UserLocal newUser)
+        {
+            db.Execute("Update [UserLocal] set [FirstName] = '" + newUser.FirstName + "', [LastName] = '" + 
+                       newUser.LastName + "'," + " [Email] = '" + newUser.Email + "', [Telephone] = '" +
+                       newUser.Telephone + "', [ImagePath] = '"+ 
+                       newUser.ImagePath + "', [UserTypeId] = '" +
+                       newUser.UserTypeId + "' where [UserId]= '" + newUser.UserId + "'");
+
+
         }
 
         public UserLocal GetUser()
@@ -71,6 +108,23 @@
             }
 
             return user;
+        }
+
+        internal void InsertToken(TokenResponse newToken)
+        {
+            if (db.Table<TokenResponse>().Count() == 0)
+            {
+                db.Insert(newToken);
+            }
+            else
+            {
+                var table = db.Table<TokenResponse>();
+                foreach (var s in table)
+                {
+                    db.DeleteAll<TokenResponse>();
+                }
+                db.Insert(newToken);
+            }
         }
 
         /*public Task<List<UserLocal>> GetItemsAsync()

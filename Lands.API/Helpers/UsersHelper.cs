@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace Lands.API.Helpers
+﻿namespace Lands.API.Helpers
 {
     using Models;
     using Microsoft.AspNet.Identity;
@@ -12,7 +7,6 @@ namespace Lands.API.Helpers
     using System.Threading.Tasks;
     using System.Web.Configuration;
     using Domain;
-    using Helpers;
 
     public class UsersHelper : IDisposable
     {

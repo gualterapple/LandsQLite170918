@@ -14,10 +14,11 @@
     <PackageReference Include="Xamarin.FFImageLoading.Svg.Forms" Version="2.4.3.840" />
     <PackageReference Include="Xamarin.FFImageLoading.Transformations" Version="2.4.3.840" />
     <PackageReference Include="MvvmLightLibs" Version="5.4.1" />
-    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
     <PackageReference Include="Xamarin.Forms" Version="3.1.0.697729" />
     <PackageReference Include="Xam.Plugin.Connectivity" Version="3.2.0" />
     <PackageReference Include="sqlite-net-pcl" Version="1.5.231" />
+    <PackageReference Include="Plugin.Facebook" Version="1.0.0" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ViewModels\" />
@@ -27,6 +28,7 @@
     <Compile Remove="ViewModels\BaseViewModels.cs" />
     <Compile Remove="Views\LandPage.cs" />
     <Compile Remove="Views\LandTabbedPage.cs" />
+    <Compile Remove="ViewModels\FacebookViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lands.Domain\Lands.Domain.csproj" />

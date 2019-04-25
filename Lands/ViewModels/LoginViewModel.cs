@@ -67,6 +67,21 @@
         #endregion
 
         #region Commands
+
+        public ICommand LoginFacebookCommand
+        {
+            get
+            {
+                return new RelayCommand(LoginFacebook);
+            }
+        }
+
+        private async void LoginFacebook()
+        {
+            await Application.Current.MainPage.Navigation.PushAsync(
+                new LoginFacebookPage());
+        }
+
         public ICommand LoginCommand
         {
             get
@@ -136,7 +151,7 @@
 
                 await Application.Current.MainPage.DisplayAlert(
 					Languages.Error,
-                    token.ErrorDescription,
+                    Languages.LoginError,
 					Languages.Accept);
                 this.Password = string.Empty;
                 return;
@@ -146,23 +161,32 @@
                 apiSecurity,
                 "/api",
                 "/Users/GetUserByEmail",
-                this.Email);
+                this.Email,
+                token.TokenType,
+                token.AccessToken);
 
             var userLocal = Converter.ToUserLocal(user);
 
+            userLocal.Password = this.Password;
+
             var mainViewModel = MainViewModel.GetInstance();
-            mainViewModel.Token = token.AccessToken;
-            mainViewModel.TokenType = token.TokenType;
+            mainViewModel.Token = token;
             mainViewModel.User = userLocal;
+            var id = userLocal.UserId;
 
             if (this.IsRemembered)
             {
-                Settings.Token = token.AccessToken;
-                Settings.TokenType = token.TokenType;
-                //this.dataService.DeleteAllAndInsert(userLocal);
-                dataAccess = new DataAccess();
-                dataAccess.InsertUser(userLocal);
+                 Settings.IsRemembered = "true";
             }
+            else
+            {
+                Settings.IsRemembered = "false";
+            }
+
+            dataAccess = new DataAccess();
+            dataAccess.InsertUser(userLocal);
+            dataAccess.InsertToken(token);
+            userLocal.UserId = id;
 
             mainViewModel.Lands = new LandsViewModel();
 

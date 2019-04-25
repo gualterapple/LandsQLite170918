@@ -10,7 +10,7 @@ namespace Lands.Helpers
 
     public static class Converter
     {
-        internal static UserLocal ToUserLocal(User user)
+        public static UserLocal ToUserLocal(User user)
         {
             return new UserLocal
             {
@@ -22,9 +22,9 @@ namespace Lands.Helpers
                 UserId = user.UserId,
                 UserTypeId = user.UserTypeId,
             };
-    }
+        }
 
-        internal static User ToUserDomain(UserLocal user, byte[] imageArray)
+        public static User ToUserDomain(UserLocal user, byte[] imageArray)
         {
             return new User
             {

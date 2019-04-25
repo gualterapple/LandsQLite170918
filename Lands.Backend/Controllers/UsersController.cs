@@ -1,20 +1,21 @@
-﻿namespace Lands.Backend.Controllers
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Net;
+using System.Web;
+using System.Web.Mvc;
+using Lands.Backend.Models;
+using Lands.Domain;
+using Lands.Backend.Helpers;
+
+namespace Lands.Backend.Controllers
 {
-
-    using System.Data.Entity;
-
-    using System.Threading.Tasks;
-    using System.Net;
-
-    using System.Web.Mvc;
-    using Backend.Models;
-    using Domain;
-    using Helpers;
-
     [Authorize(Roles = "Admin")]
     public class UsersController : Controller
     {
-
         private LocalDataContext db = new LocalDataContext();
 
         // GET: Users
@@ -45,8 +46,6 @@
         //}
 
         //// POST: Users/Create
-        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        //// more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         //[HttpPost]
         //[ValidateAntiForgeryToken]
         //public async Task<ActionResult> Create(UserView view)
@@ -96,7 +95,7 @@
         //// more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         //[HttpPost]
         //[ValidateAntiForgeryToken]
-        //public async Task<ActionResult> Edit([Bind(Include = "UserId,FirstName,LastName,Email,Telephone,ImagePath")] User user)
+        //public async Task<ActionResult> Edit([Bind(Include = "UserId,FirstName,LastName,Email,Telephone,ImagePath,ImageArray")] User user)
         //{
         //    if (ModelState.IsValid)
         //    {

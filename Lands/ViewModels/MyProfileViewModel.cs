@@ -1,6 +1,7 @@
 ﻿namespace Lands.ViewModels
 {
     using System;
+    using System.IO;
     using System.Windows.Input;
     using GalaSoft.MvvmLight.Command;
     using Helpers;
@@ -8,6 +9,7 @@
     using Plugin.Media;
     using Plugin.Media.Abstractions;
     using Services;
+    using SQLite;
     using Views;
     using Xamarin.Forms;
 
@@ -16,6 +18,7 @@
         #region Services
         private ApiService apiService;
         private DataService dataService;
+        private DataAccess dataAccess;
         #endregion
 
         #region Attributes
@@ -23,6 +26,8 @@
         private bool isEnabled;
         private ImageSource imageSource;
         private MediaFile file;
+        string dbPath;
+        SQLiteConnection db;
         #endregion
 
         #region Properties
@@ -56,6 +61,7 @@
         {
             this.apiService = new ApiService();
             this.dataService = new DataService();
+            this.dataAccess = new DataAccess();
 
             this.User = MainViewModel.GetInstance().User;
             this.ImageSource = this.User.ImageFullPath;
@@ -128,6 +134,20 @@
             {
                 return new RelayCommand(Save);
             }
+        }
+
+        public ICommand ChangePasswordCommand
+        {
+            get
+            {
+                return new RelayCommand(ChangePassword);
+            }
+        }
+
+        private async void ChangePassword()
+        {
+            MainViewModel.GetInstance().ChangePassword = new ChangePasswordViewModel();
+            await App.Navigator.PushAsync(new ChangePasswordPage());
         }
 
         private async void Save()
@@ -205,8 +225,8 @@
                 apiSecurity,
                 "/api",
                 "/Users",
-                MainViewModel.GetInstance().TokenType,
-                MainViewModel.GetInstance().Token,
+                MainViewModel.GetInstance().Token.TokenType,
+                MainViewModel.GetInstance().Token.AccessToken,
                 userDomain);
 
             if (!response.IsSuccess)
@@ -220,14 +240,28 @@
                 return;
             }
 
+            var userApi = await this.apiService.GetUserByEmail(
+                apiSecurity,
+                "/api",
+                "/Users/GetUserByEmail",
+                this.User.Email,
+                MainViewModel.GetInstance().Token.TokenType,
+                MainViewModel.GetInstance().Token.AccessToken
+                );
+
+            var userLocal = Converter.ToUserLocal(userApi);
+
+            MainViewModel.GetInstance().User = userLocal;
+            this.dataAccess.UpdateUser(userLocal);
+
             this.IsRunning = false;
             this.IsEnabled = true;
 
-            
             await App.Navigator.PopAsync();
         }
 
-        #endregion  
+        #endregion
+
     }
 }
 
